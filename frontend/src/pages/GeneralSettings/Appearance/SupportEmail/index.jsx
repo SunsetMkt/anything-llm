@@ -52,10 +52,10 @@ export default function SupportEmail() {
     }
   };
 
-  const onEmailChange = (e) => {
+  const onEmailChange = useCallback((e) => {
     setSupportEmail(e.target.value);
     setHasChanges(true);
-  };
+  }, []);
 
   if (loading) return null;
 
