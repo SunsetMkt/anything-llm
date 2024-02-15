@@ -66,10 +66,10 @@ function UserButton() {
     }
   };
 
-  const handleOpenAccountModal = () => {
+  const handleOpenAccountModal = useCallback(() => {
     setShowAccountSettings(true);
     setShowMenu(false);
-  };
+  }, []);
 
   useEffect(() => {
     if (showMenu) {
