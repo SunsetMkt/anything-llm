@@ -1,29 +1,29 @@
 import Admin from "@/models/admin";
 import System from "@/models/system";
 import showToast from "@/utils/toast";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 
-export default function SupportEmail() {
-  const [loading, setLoading] = useState(true);
-  const [hasChanges, setHasChanges] = useState(false);
-  const [supportEmail, setSupportEmail] = useState("");
+//...
 
-  useEffect(() => {
-    const fetchSupportEmail = async () => {
-      const supportEmail = await System.fetchSupportEmail();
-      setSupportEmail(supportEmail.email || "");
-      setLoading(false);
-    };
-    fetchSupportEmail();
-  }, []);
+const updateSupportEmail = useCallback(async (e) => {
+  e.preventDefault();
+  const form = new FormData(e.target);
+  const supportEmail = form.get("supportEmail");
+  const { success, error } = await Admin.updateSystemPreferences({
+    support_email: supportEmail,
+  });
 
-  const updateSupportEmail = async (e) => {
-    e.preventDefault();
-    const form = new FormData(e.target);
-    const supportEmail = form.get("supportEmail");
-    const { success, error } = await Admin.updateSystemPreferences({
-      support_email: supportEmail,
-    });
+  if (!success) {
+    showToast(`Failed to update support email: ${error}`, "error");
+    return;
+  } else {
+    showToast("Successfully updated support email.", "success");
+    window.localStorage.removeItem(System.cacheKeys.supportEmail);
+    setHasChanges(false);
+  }
+}, []);
+
+//...
 
     if (!success) {
       showToast(`Failed to update support email: ${error}`, "error");
