@@ -292,7 +292,7 @@ function adminEndpoints(app) {
     "/admin/system-preferences",
     [validatedRequest, flexUserRoleValid([ROLES.admin, ROLES.manager])],
     async (_, response) => {
-      try {
+      const settings = await SystemSettings.getAll();
         const settings = {
           users_can_delete_workspaces:
             (await SystemSettings.get({ label: "users_can_delete_workspaces" }))
