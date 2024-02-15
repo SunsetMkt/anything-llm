@@ -36,10 +36,10 @@ function adminEndpoints(app) {
         });
         response.status(200).json({ users });
       } catch (e) {
-        console.error(e);
-        response.sendStatus(500).end();
-      }
-    }
+        catch (e) {
+          console.error(`Error occurred in adminEndpoints: ${e.message}`);
+          response.sendStatus(500).end();
+        }
   );
 
   app.post(
