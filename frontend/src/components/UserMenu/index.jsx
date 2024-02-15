@@ -56,7 +56,7 @@ function UserButton() {
   const mode = useLoginMode();
   const menuRef = useRef();
   const buttonRef = useRef();
-  const handleClose = (event) => {
+  const handleClose = useCallback((event) => {
     if (
       menuRef.current &&
       !menuRef.current.contains(event.target) &&
@@ -64,7 +64,7 @@ function UserButton() {
     ) {
       setShowMenu(false);
     }
-  };
+  }, []);
 
   const handleOpenAccountModal = () => {
     setShowAccountSettings(true);
